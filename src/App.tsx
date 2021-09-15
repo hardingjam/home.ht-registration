@@ -1,17 +1,34 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
 import { ProgressBar } from "./ProgressBar";
 import { FullName } from "./fullName";
 
 const App: React.FC = () => {
-    const [userData] = useState({
-        firstName: "",
-        lastName: "",
-        email: "",
-        phone: null,
-        salaryRange: null,
-        progress: 1,
+    const [firstName, setFirstName] = useState<string>("");
+    const [lastName, setLastName] = useState<string>("");
+    const [email, setEmail] = useState<string>("");
+    const [phone, setPhone] = useState<string>("");
+    const [salary, setSalary] = useState<string>("");
+    const [progress, setProgress] = useState<number>(0);
+
+    useEffect(() => {
+        console.log("first", firstName);
+        console.log("last", lastName);
+        console.log("email", email);
+        console.log("phone", phone);
+        console.log("salary", salary);
+        console.log("progress", progress);
     });
+
+    const updateName = (
+        e: React.MouseEvent,
+        firstName: string,
+        lastName: string
+    ) => {
+        console.log("updating state!");
+        setFirstName(firstName);
+        setLastName(lastName);
+    };
 
     return (
         <div className="App">
@@ -20,10 +37,15 @@ const App: React.FC = () => {
                 <ProgressBar />
             </header>
             <div className="registration-form">
-                {userData.progress === 1 && (
+                {progress === 0 && (
                     <div>
-                        <h1>You're at stage 1!</h1>
-                        <FullName firstName="" lastName="" />
+                        <FullName
+                            firstName={""}
+                            lastName={""}
+                            updateName={(e, first: string, last: string) =>
+                                updateName(e, first, last)
+                            }
+                        />
                     </div>
                 )}
             </div>

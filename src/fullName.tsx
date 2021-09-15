@@ -1,12 +1,18 @@
 import React, { useRef, useState } from "react";
+
 import "./App.css";
 
-interface Props {
+interface NameProps {
     firstName: string;
     lastName: string;
+    updateName: (e: React.MouseEvent, first: string, last: string) => void;
 }
 
-export const FullName: React.FC<Props> = ({ firstName, lastName }) => {
+export const FullName: React.FC<NameProps> = ({
+    updateName,
+    firstName,
+    lastName,
+}) => {
     const [first, setFirst] = useState<string>("");
     const [last, setLast] = useState<string>("");
 
@@ -22,11 +28,9 @@ export const FullName: React.FC<Props> = ({ firstName, lastName }) => {
         }
     }
 
-    function handleClick(e: React.FormEvent<HTMLButtonElement>) {
+    function handleClick(e: React.MouseEvent) {
         console.log(first, last);
-        // pass this information to the top-level userData
-        // increment form progress
-        // render the next stage in the form
+        updateName(e, first, last);
     }
 
     return (
