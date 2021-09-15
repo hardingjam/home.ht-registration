@@ -35,7 +35,7 @@ export const FullName: React.FC<NameProps> = ({
 
     return (
         <div className="registration-step">
-            <h2>Step in registration!</h2>
+            <h2>Step 1 in registration!</h2>
             <input
                 ref={firstRef}
                 name="firstName"

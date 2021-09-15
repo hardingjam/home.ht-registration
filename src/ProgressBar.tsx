@@ -1,9 +1,17 @@
 import React from "react";
 
-export const ProgressBar: React.FC = () => {
+interface ProgressProps {
+    percentage: number;
+}
+
+export const ProgressBar: React.FC<ProgressProps> = ({ percentage }) => {
+    const style = {
+        width: `${percentage}%`,
+    };
+
     return (
         <div id="prog-bar" className="progress">
-            <div className="progress-bar" />
+            <div className="progress-bar" style={style} />
         </div>
     );
 };
