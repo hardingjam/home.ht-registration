@@ -1,9 +1,10 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
 import { ProgressBar } from "./ProgressBar";
 import { FullName } from "./fullName";
 import { EmailAndPhone } from "./emailAndPhone";
 import { SalaryRange } from "./salaryRange";
+import { Summary } from "./summary";
 
 const App: React.FC = () => {
     const [firstName, setFirstName] = useState<string>("");
@@ -12,9 +13,6 @@ const App: React.FC = () => {
     const [phone, setPhone] = useState<string>("");
     const [salary, setSalary] = useState<string>("");
     const [progress, setProgress] = useState<number>(20);
-
-    const nextRef = useRef<HTMLButtonElement>(null);
-    const backRef = useRef<HTMLButtonElement>(null);
 
     useEffect(() => {
         const progressBar = document.getElementById("prog-bar");
@@ -30,14 +28,16 @@ const App: React.FC = () => {
         console.log("progress:", progress);
     });
 
-    const step = (e: React.MouseEvent<HTMLButtonElement>) => {
-        console.log("stepping");
-        console.log(e.target);
-        if (e.currentTarget.name === "back") {
-            setProgress((currProgress) => currProgress - 20);
-        }
-        if (e.currentTarget.name === "next") {
+    const step = (
+        e: React.MouseEvent<HTMLButtonElement>,
+        direction: string
+    ) => {
+        console.log("stepping from app.js");
+        if (direction === "next") {
             setProgress((currProgress) => currProgress + 20);
+        }
+        if (direction === "back") {
+            setProgress((currProgress) => currProgress - 20);
         }
     };
 
@@ -49,7 +49,6 @@ const App: React.FC = () => {
         console.log("updating state!");
         setFirstName(firstName);
         setLastName(lastName);
-        setProgress(40);
     };
 
     const updateEmailAndPhone = (
@@ -60,7 +59,11 @@ const App: React.FC = () => {
         console.log("updating email and phone");
         setEmail(email);
         setPhone(phone);
-        setProgress(60);
+    };
+
+    const updateSalary = (e: React.MouseEvent, salary: string) => {
+        console.log("updating salary!");
+        setSalary(salary);
     };
 
     return (
@@ -73,11 +76,13 @@ const App: React.FC = () => {
                 {progress === 20 && (
                     <div>
                         <FullName
-                            firstName={""}
-                            lastName={""}
+                            progress={progress}
+                            firstName={firstName}
+                            lastName={lastName}
                             updateName={(e, first: string, last: string) =>
                                 updateName(e, first, last)
                             }
+                            step={(e, direction: string) => step(e, direction)}
                         />
                     </div>
                 )}
@@ -85,32 +90,42 @@ const App: React.FC = () => {
                     <div>
                         <EmailAndPhone
                             firstName={firstName}
-                            email={""}
-                            phone={""}
+                            email={email}
+                            phone={phone}
+                            progress={progress}
                             updateEmailAndPhone={(
                                 e,
                                 email: string,
                                 phone: string
                             ) => updateEmailAndPhone(e, email, phone)}
+                            step={(e, direction: string) => step(e, direction)}
                         />
                     </div>
                 )}
                 {progress === 60 && (
                     <>
-                        <SalaryRange salaryRange={""} />
+                        <SalaryRange
+                            progress={progress}
+                            salary={salary}
+                            updateSalary={(e, salary: string) =>
+                                updateSalary(e, salary)
+                            }
+                            step={(e, direction: string) => step(e, direction)}
+                        />
                     </>
                 )}
-            </div>
-            <div className="step-buttons">
-                {progress !== 20 && (
-                    <button ref={backRef} name="back" onClick={step}>
-                        Back
-                    </button>
-                )}
-                {progress !== 100 && (
-                    <button ref={nextRef} name="next" onClick={step}>
-                        Next
-                    </button>
+                {progress === 80 && (
+                    <>
+                        <Summary
+                            progress={progress}
+                            firstName={firstName}
+                            lastName={lastName}
+                            email={email}
+                            phone={phone}
+                            salary={salary}
+                            step={(e, direction: string) => step(e, direction)}
+                        />
+                    </>
                 )}
             </div>
         </div>

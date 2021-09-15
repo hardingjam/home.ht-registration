@@ -5,16 +5,21 @@ import "./App.css";
 interface NameProps {
     firstName: string;
     lastName: string;
+    progress: number;
     updateName: (e: React.MouseEvent, first: string, last: string) => void;
+    step: (e: React.MouseEvent<HTMLButtonElement>, direction: string) => void;
 }
 
 export const FullName: React.FC<NameProps> = ({
-    updateName,
     firstName,
     lastName,
+    progress,
+    updateName,
+    step,
 }) => {
-    const [first, setFirst] = useState<string>("");
-    const [last, setLast] = useState<string>("");
+    const [first, setFirst] = useState<string>(firstName);
+    const [last, setLast] = useState<string>(lastName);
+    const [error, setError] = useState<boolean>(false);
     const firstRef = useRef<HTMLInputElement>(null);
     const lastRef = useRef<HTMLInputElement>(null);
 
@@ -27,8 +32,11 @@ export const FullName: React.FC<NameProps> = ({
         }
     }
 
-    function handleClick(e: React.MouseEvent) {
-        console.log(first, last);
+    function handleClick(e: React.MouseEvent<HTMLButtonElement>) {
+        if (!first || !last) {
+            return setError(true);
+        }
+        step(e, `${e.currentTarget.name}`);
         updateName(e, first, last);
     }
 
@@ -52,7 +60,19 @@ export const FullName: React.FC<NameProps> = ({
                 value={last}
                 onChange={handleChange}
             ></input>
-            <button onClick={handleClick}>Next</button>
+            <div className="step-buttons">
+                {progress !== 20 && (
+                    <button name="back" onClick={handleClick}>
+                        Back
+                    </button>
+                )}
+                {progress !== 100 && (
+                    <button name="next" onClick={handleClick}>
+                        Next
+                    </button>
+                )}
+            </div>
+            {error && <div className="error">Please complete all fields.</div>}
         </div>
     );
 };

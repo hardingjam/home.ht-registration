@@ -6,22 +6,26 @@ interface NameProps {
     firstName: string;
     email: string;
     phone: string;
+    progress: number;
     updateEmailAndPhone: (
         e: React.MouseEvent,
         email: string,
         phone: string
     ) => void;
+    step: (e: React.MouseEvent<HTMLButtonElement>, direction: string) => void;
 }
 
 export const EmailAndPhone: React.FC<NameProps> = ({
-    updateEmailAndPhone,
     firstName,
     email,
     phone,
+    progress,
+    updateEmailAndPhone,
+    step,
 }) => {
-    const [emailAddress, setEmailAddress] = useState<string>("");
-    const [phoneNumber, setPhoneNumber] = useState<string>("");
-
+    const [emailAddress, setEmailAddress] = useState<string>(email);
+    const [phoneNumber, setPhoneNumber] = useState<string>(phone);
+    const [error, setError] = useState<boolean>(false);
     const emailRef = useRef<HTMLInputElement>(null);
     const phoneRef = useRef<HTMLInputElement>(null);
 
@@ -35,8 +39,11 @@ export const EmailAndPhone: React.FC<NameProps> = ({
         }
     }
 
-    function handleClick(e: React.MouseEvent) {
-        console.log(emailAddress, phoneNumber);
+    function handleClick(e: React.MouseEvent<HTMLButtonElement>) {
+        if (!phoneNumber || !emailAddress) {
+            return setError(true);
+        }
+        step(e, `${e.currentTarget.name}`);
         updateEmailAndPhone(e, emailAddress, phoneNumber);
     }
 
@@ -57,7 +64,19 @@ export const EmailAndPhone: React.FC<NameProps> = ({
                 value={phoneNumber}
                 onChange={handleChange}
             ></input>
-            <button onClick={handleClick}>Next</button>
+            <div className="step-buttons">
+                {progress !== 20 && (
+                    <button name="back" onClick={handleClick}>
+                        Back
+                    </button>
+                )}
+                {progress !== 100 && (
+                    <button name="next" onClick={handleClick}>
+                        Next
+                    </button>
+                )}
+            </div>
+            {error && <div className="error">Please complete all fields.</div>}
         </div>
     );
 };

@@ -13,6 +13,10 @@
     color: white;
 }
 
+button {
+    cursor: pointer;
+}
+
 .progress {
     width: 60%;
     height: 30px;
