@@ -15,7 +15,6 @@ export const FullName: React.FC<NameProps> = ({
 }) => {
     const [first, setFirst] = useState<string>("");
     const [last, setLast] = useState<string>("");
-
     const firstRef = useRef<HTMLInputElement>(null);
     const lastRef = useRef<HTMLInputElement>(null);
 
@@ -35,8 +34,10 @@ export const FullName: React.FC<NameProps> = ({
 
     return (
         <div className="registration-step">
-            <h2>Step 1 in registration!</h2>
+            <h2>Let's get started. Tell us your name...</h2>
+
             <input
+                placeholder="First"
                 ref={firstRef}
                 name="firstName"
                 type="text"
@@ -44,6 +45,7 @@ export const FullName: React.FC<NameProps> = ({
                 onChange={handleChange}
             ></input>
             <input
+                placeholder="Last"
                 ref={lastRef}
                 name="lastName"
                 type="text"

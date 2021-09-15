@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./App.css";
 import { ProgressBar } from "./ProgressBar";
 import { FullName } from "./fullName";
 import { EmailAndPhone } from "./emailAndPhone";
+import { SalaryRange } from "./salaryRange";
 
 const App: React.FC = () => {
     const [firstName, setFirstName] = useState<string>("");
@@ -10,7 +11,10 @@ const App: React.FC = () => {
     const [email, setEmail] = useState<string>("");
     const [phone, setPhone] = useState<string>("");
     const [salary, setSalary] = useState<string>("");
-    const [progress, setProgress] = useState<number>(25);
+    const [progress, setProgress] = useState<number>(20);
+
+    const nextRef = useRef<HTMLButtonElement>(null);
+    const backRef = useRef<HTMLButtonElement>(null);
 
     useEffect(() => {
         const progressBar = document.getElementById("prog-bar");
@@ -18,13 +22,24 @@ const App: React.FC = () => {
     }, []);
 
     useEffect(() => {
-        console.log("first", firstName);
-        console.log("last", lastName);
-        console.log("email", email);
-        console.log("phone", phone);
-        console.log("salary", salary);
-        console.log("progress", progress);
+        console.log("first:", firstName);
+        console.log("last:", lastName);
+        console.log("email:", email);
+        console.log("phone:", phone);
+        console.log("salary:", salary);
+        console.log("progress:", progress);
     });
+
+    const step = (e: React.MouseEvent<HTMLButtonElement>) => {
+        console.log("stepping");
+        console.log(e.target);
+        if (e.currentTarget.name === "back") {
+            setProgress((currProgress) => currProgress - 20);
+        }
+        if (e.currentTarget.name === "next") {
+            setProgress((currProgress) => currProgress + 20);
+        }
+    };
 
     const updateName = (
         e: React.MouseEvent,
@@ -34,7 +49,7 @@ const App: React.FC = () => {
         console.log("updating state!");
         setFirstName(firstName);
         setLastName(lastName);
-        setProgress(50);
+        setProgress(40);
     };
 
     const updateEmailAndPhone = (
@@ -45,7 +60,7 @@ const App: React.FC = () => {
         console.log("updating email and phone");
         setEmail(email);
         setPhone(phone);
-        setProgress(50);
+        setProgress(60);
     };
 
     return (
@@ -55,7 +70,7 @@ const App: React.FC = () => {
                 <ProgressBar percentage={progress} />
             </header>
             <div className="registration-form">
-                {progress === 25 && (
+                {progress === 20 && (
                     <div>
                         <FullName
                             firstName={""}
@@ -66,9 +81,10 @@ const App: React.FC = () => {
                         />
                     </div>
                 )}
-                {progress === 50 && (
+                {progress === 40 && (
                     <div>
                         <EmailAndPhone
+                            firstName={firstName}
                             email={""}
                             phone={""}
                             updateEmailAndPhone={(
@@ -78,6 +94,23 @@ const App: React.FC = () => {
                             ) => updateEmailAndPhone(e, email, phone)}
                         />
                     </div>
+                )}
+                {progress === 60 && (
+                    <>
+                        <SalaryRange salaryRange={""} />
+                    </>
+                )}
+            </div>
+            <div className="step-buttons">
+                {progress !== 20 && (
+                    <button ref={backRef} name="back" onClick={step}>
+                        Back
+                    </button>
+                )}
+                {progress !== 100 && (
+                    <button ref={nextRef} name="next" onClick={step}>
+                        Next
+                    </button>
                 )}
             </div>
         </div>
