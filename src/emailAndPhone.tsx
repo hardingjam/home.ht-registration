@@ -25,9 +25,15 @@ export const EmailAndPhone: React.FC<NameProps> = ({
 }) => {
     const [emailAddress, setEmailAddress] = useState<string>(email);
     const [phoneNumber, setPhoneNumber] = useState<string>(phone);
-    const [error, setError] = useState<boolean>(false);
     const emailRef = useRef<HTMLInputElement>(null);
     const phoneRef = useRef<HTMLInputElement>(null);
+    const [error, setError] = useState<boolean>(false);
+    const [badEmail, setBadEmail] = useState<boolean>(false);
+
+    function validateEmail(email: string) {
+        var re = /\S+@\S+\.\S+/;
+        return re.test(email);
+    }
 
     function handleChange(e: React.FormEvent<HTMLInputElement>) {
         console.log("changing");
@@ -43,6 +49,9 @@ export const EmailAndPhone: React.FC<NameProps> = ({
         if (!phoneNumber || !emailAddress) {
             return setError(true);
         }
+        if (!validateEmail(emailAddress)) {
+            return setBadEmail(true);
+        }
         step(e, `${e.currentTarget.name}`);
         updateEmailAndPhone(e, emailAddress, phoneNumber);
     }
@@ -51,6 +60,8 @@ export const EmailAndPhone: React.FC<NameProps> = ({
         <div className="registration-step">
             <h2>How can we contact you, {firstName}?</h2>
             <input
+                className="text-input"
+                placeholder="Email"
                 ref={emailRef}
                 name="email"
                 type="text"
@@ -58,6 +69,8 @@ export const EmailAndPhone: React.FC<NameProps> = ({
                 onChange={handleChange}
             ></input>
             <input
+                className="text-input"
+                placeholder="Phone"
                 ref={phoneRef}
                 name="phone"
                 type="text"
@@ -65,18 +78,20 @@ export const EmailAndPhone: React.FC<NameProps> = ({
                 onChange={handleChange}
             ></input>
             <div className="step-buttons">
-                {progress !== 20 && (
-                    <button name="back" onClick={handleClick}>
-                        Back
-                    </button>
-                )}
-                {progress !== 100 && (
-                    <button name="next" onClick={handleClick}>
-                        Next
-                    </button>
-                )}
+                <button name="back" onClick={handleClick}>
+                    Back
+                </button>
+
+                <button name="next" onClick={handleClick}>
+                    Next
+                </button>
             </div>
             {error && <div className="error">Please complete all fields.</div>}
+            {badEmail && (
+                <div className="error">
+                    That doesn't look like a valid email address.
+                </div>
+            )}
         </div>
     );
 };

@@ -27,21 +27,26 @@ export const Summary: React.FC<SummaryProps> = ({
 
     return (
         <div className="registration-step">
-            <h2>
-                Here's your information. Feel free to go back and make changes,
-                or if you're ready, submit!
-            </h2>
+            <h2>Check your details, and if you're ready, submit!</h2>
             <div className="summary-info">
-                <p>
-                    Name: {firstName} {lastName}
-                </p>
-                <p>Email: {email}</p>
-                <p>Phone: {phone}</p>
-                <p>Salary Range: {salary}</p>
+                <div className="info-labels">
+                    <p>Name:</p>
+                    <p>Email:</p>
+                    <p>Phone:</p>
+                    <p>Salary:</p>
+                </div>
+                <div className="info-values">
+                    <p>
+                        {firstName} {lastName}
+                    </p>
+                    <p>{email}</p>
+                    <p>{phone}</p>
+                    <p>{salary}</p>
+                </div>
             </div>
 
             <div className="step-buttons">
-                {progress !== 20 && (
+                {progress !== 0 && (
                     <button name="back" onClick={handleClick}>
                         Back
                     </button>

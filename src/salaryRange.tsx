@@ -32,60 +32,67 @@ export const SalaryRange: React.FC<SalaryProps> = ({
 
     return (
         <div className="registration-step">
+            <h2>What is your approximate household income per month?</h2>
             <div className="radio-buttons">
-                <input
-                    type="radio"
-                    value="0"
-                    name="salary"
-                    checked={salaryRange === "0"}
-                    onChange={handleChange}
-                />
-                0 - 1.000
-                <input
-                    type="radio"
-                    value="1.000 - 2.000"
-                    name="salary"
-                    checked={salaryRange === "1.000 - 2.000"}
-                    onChange={handleChange}
-                />
-                1.000 - 2.000
-                <input
-                    type="radio"
-                    value="2.000 - 3.000"
-                    name="salary"
-                    checked={salaryRange === "2.000 - 3.000"}
-                    onChange={handleChange}
-                />
-                2.000 - 3.000
-                <input
-                    type="radio"
-                    value="3.000 - 4.000"
-                    checked={salaryRange === "3.000 - 4.000"}
-                    onChange={handleChange}
-                    name="salary"
-                />
-                3.000 - 4.000
-                <input
-                    type="radio"
-                    value="Mehr als 4.000"
-                    checked={salaryRange === "Mehr als 4.000"}
-                    onChange={handleChange}
-                    name="salary"
-                />
-                Mehr als 4.000
+                <div className="button-and-label">
+                    <input
+                        type="radio"
+                        value="0 - 1.000"
+                        name="salary"
+                        checked={salaryRange === "0 - 1.000"}
+                        onChange={handleChange}
+                    />
+                    0 - 1.000
+                </div>
+                <div className="button-and-label">
+                    <input
+                        type="radio"
+                        value="1.000 - 2.000"
+                        name="salary"
+                        checked={salaryRange === "1.000 - 2.000"}
+                        onChange={handleChange}
+                    />
+                    1.000 - 2.000
+                </div>
+                <div className="button-and-label">
+                    <input
+                        type="radio"
+                        value="2.000 - 3.000"
+                        name="salary"
+                        checked={salaryRange === "2.000 - 3.000"}
+                        onChange={handleChange}
+                    />
+                    2.000 - 3.000
+                </div>
+                <div className="button-and-label">
+                    <input
+                        type="radio"
+                        value="3.000 - 4.000"
+                        checked={salaryRange === "3.000 - 4.000"}
+                        onChange={handleChange}
+                        name="salary"
+                    />
+                    3.000 - 4.000
+                </div>
+                <div className="button-and-label">
+                    <input
+                        type="radio"
+                        value="Mehr als 4.000"
+                        checked={salaryRange === "Mehr als 4.000"}
+                        onChange={handleChange}
+                        name="salary"
+                    />
+                    More than 4.000
+                </div>
             </div>
-
             <div className="step-buttons">
-                {progress !== 20 && (
-                    <button name="back" onClick={handleClick}>
-                        Back
-                    </button>
-                )}
-                {progress !== 100 && (
-                    <button name="next" onClick={handleClick}>
-                        Next
-                    </button>
-                )}
+                <button name="back" onClick={handleClick}>
+                    Back
+                </button>
+
+                <button name="next" onClick={handleClick}>
+                    Next
+                </button>
             </div>
         </div>
     );

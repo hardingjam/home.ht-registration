@@ -45,6 +45,7 @@ export const FullName: React.FC<NameProps> = ({
             <h2>Let's get started. Tell us your name...</h2>
 
             <input
+                className="text-input"
                 placeholder="First"
                 ref={firstRef}
                 name="firstName"
@@ -53,6 +54,7 @@ export const FullName: React.FC<NameProps> = ({
                 onChange={handleChange}
             ></input>
             <input
+                className="text-input"
                 placeholder="Last"
                 ref={lastRef}
                 name="lastName"
@@ -61,16 +63,9 @@ export const FullName: React.FC<NameProps> = ({
                 onChange={handleChange}
             ></input>
             <div className="step-buttons">
-                {progress !== 20 && (
-                    <button name="back" onClick={handleClick}>
-                        Back
-                    </button>
-                )}
-                {progress !== 100 && (
-                    <button name="next" onClick={handleClick}>
-                        Next
-                    </button>
-                )}
+                <button name="next" onClick={handleClick}>
+                    Next
+                </button>
             </div>
             {error && <div className="error">Please complete all fields.</div>}
         </div>
