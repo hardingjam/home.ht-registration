@@ -8,11 +8,18 @@ interface NameProps {
     phone: string;
     progress: number;
     updateEmailAndPhone: (
-        e: React.MouseEvent,
+        e:
+            | React.MouseEvent<HTMLButtonElement>
+            | React.KeyboardEvent<HTMLDivElement>,
         email: string,
         phone: string
     ) => void;
-    step: (e: React.MouseEvent<HTMLButtonElement>, direction: string) => void;
+    step: (
+        e:
+            | React.MouseEvent<HTMLButtonElement>
+            | React.KeyboardEvent<HTMLDivElement>,
+        direction: string
+    ) => void;
 }
 
 export const EmailAndPhone: React.FC<NameProps> = ({
@@ -45,19 +52,40 @@ export const EmailAndPhone: React.FC<NameProps> = ({
         }
     }
 
+    function submit(
+        e:
+            | React.KeyboardEvent<HTMLDivElement>
+            | React.MouseEvent<HTMLButtonElement>,
+        emailAddress: string,
+        phoneNumber: string,
+        direction: string
+    ) {
+        if (direction === "next") {
+            if (!phoneNumber || !emailAddress) {
+                return setError(true);
+            }
+            if (!validateEmail(emailAddress)) {
+                return setBadEmail(true);
+            }
+            updateEmailAndPhone(e, emailAddress, phoneNumber);
+            step(e, direction);
+        } else if (direction === "back") {
+            step(e, direction);
+        }
+    }
+
+    function handleKeyPress(e: React.KeyboardEvent<HTMLDivElement>) {
+        if (e.code === "Enter") {
+            submit(e, emailAddress, phoneNumber, "next");
+        }
+    }
+
     function handleClick(e: React.MouseEvent<HTMLButtonElement>) {
-        if (!phoneNumber || !emailAddress) {
-            return setError(true);
-        }
-        if (!validateEmail(emailAddress)) {
-            return setBadEmail(true);
-        }
-        step(e, `${e.currentTarget.name}`);
-        updateEmailAndPhone(e, emailAddress, phoneNumber);
+        submit(e, emailAddress, phoneNumber, `${e.currentTarget.name}`);
     }
 
     return (
-        <div className="registration-step">
+        <div className="registration-step" onKeyPress={handleKeyPress}>
             <h2>How can we contact you, {firstName}?</h2>
             <input
                 className="text-input"

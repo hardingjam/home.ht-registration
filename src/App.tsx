@@ -30,7 +30,9 @@ const App: React.FC = () => {
     });
 
     const step = (
-        e: React.MouseEvent<HTMLButtonElement>,
+        e:
+            | React.MouseEvent<HTMLButtonElement>
+            | React.KeyboardEvent<HTMLDivElement>,
         direction: string
     ) => {
         console.log("stepping from app.js");
@@ -43,7 +45,7 @@ const App: React.FC = () => {
     };
 
     const updateName = (
-        e: React.MouseEvent,
+        e: React.MouseEvent | React.KeyboardEvent,
         firstName: string,
         lastName: string
     ) => {
@@ -53,7 +55,7 @@ const App: React.FC = () => {
     };
 
     const updateEmailAndPhone = (
-        e: React.MouseEvent,
+        e: React.MouseEvent | React.KeyboardEvent,
         email: string,
         phone: string
     ) => {
@@ -62,7 +64,10 @@ const App: React.FC = () => {
         setPhone(phone);
     };
 
-    const updateSalary = (e: React.MouseEvent, salary: string) => {
+    const updateSalary = (
+        e: React.MouseEvent | React.KeyboardEvent,
+        salary: string
+    ) => {
         console.log("updating salary!");
         setSalary(salary);
     };

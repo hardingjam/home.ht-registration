@@ -5,8 +5,18 @@ import "./App.css";
 interface SalaryProps {
     progress: number;
     salary: string;
-    updateSalary: (e: React.MouseEvent, salary: string) => void;
-    step: (e: React.MouseEvent<HTMLButtonElement>, direction: string) => void;
+    updateSalary: (
+        e:
+            | React.MouseEvent<HTMLButtonElement>
+            | React.KeyboardEvent<HTMLDivElement>,
+        salary: string
+    ) => void;
+    step: (
+        e:
+            | React.MouseEvent<HTMLButtonElement>
+            | React.KeyboardEvent<HTMLDivElement>,
+        direction: string
+    ) => void;
 }
 
 export const SalaryRange: React.FC<SalaryProps> = ({
@@ -16,14 +26,34 @@ export const SalaryRange: React.FC<SalaryProps> = ({
     step,
 }) => {
     const [salaryRange, setSalaryRange] = useState<string>(salary);
+    const [error, setError] = useState<boolean>(false);
 
     useEffect(() => {
         console.log(salaryRange);
     }, [salaryRange]);
 
-    function handleClick(e: React.MouseEvent<HTMLButtonElement>) {
-        step(e, `${e.currentTarget.name}`);
+    function submit(
+        e:
+            | React.KeyboardEvent<HTMLDivElement>
+            | React.MouseEvent<HTMLButtonElement>,
+        salaryRange: string,
+        direction: string
+    ) {
+        if (!salaryRange) {
+            return setError(true); // add the error message
+        }
         updateSalary(e, salaryRange);
+        step(e, direction);
+    }
+
+    function handleKeyPress(e: React.KeyboardEvent<HTMLDivElement>) {
+        if (e.code === "Enter") {
+            submit(e, salaryRange, "next");
+        }
+    }
+
+    function handleClick(e: React.MouseEvent<HTMLButtonElement>) {
+        submit(e, salaryRange, `${e.currentTarget.name}`);
     }
 
     function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -31,7 +61,7 @@ export const SalaryRange: React.FC<SalaryProps> = ({
     }
 
     return (
-        <div className="registration-step">
+        <div className="registration-step" onKeyPress={handleKeyPress}>
             <h2>What is your approximate household income per month?</h2>
             <div className="radio-buttons">
                 <div className="button-and-label">
@@ -94,6 +124,9 @@ export const SalaryRange: React.FC<SalaryProps> = ({
                     Next
                 </button>
             </div>
+            {error && (
+                <div className="error">Please select a salary range.</div>
+            )}
         </div>
     );
 };

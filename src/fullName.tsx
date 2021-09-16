@@ -6,8 +6,19 @@ interface NameProps {
     firstName: string;
     lastName: string;
     progress: number;
-    updateName: (e: React.MouseEvent, first: string, last: string) => void;
-    step: (e: React.MouseEvent<HTMLButtonElement>, direction: string) => void;
+    updateName: (
+        e:
+            | React.MouseEvent<HTMLButtonElement>
+            | React.KeyboardEvent<HTMLDivElement>,
+        first: string,
+        last: string
+    ) => void;
+    step: (
+        e:
+            | React.MouseEvent<HTMLButtonElement>
+            | React.KeyboardEvent<HTMLDivElement>,
+        direction: string
+    ) => void;
 }
 
 export const FullName: React.FC<NameProps> = ({
@@ -32,18 +43,29 @@ export const FullName: React.FC<NameProps> = ({
         }
     }
 
+    function submit(
+        e:
+            | React.KeyboardEvent<HTMLDivElement>
+            | React.MouseEvent<HTMLButtonElement>,
+        first: string,
+        last: string,
+        direction: string
+    ) {
+        if (!first || !last) {
+            return setError(true);
+        }
+        updateName(e, first, last);
+        step(e, direction);
+    }
+
     function handleKeyPress(e: React.KeyboardEvent<HTMLDivElement>) {
         if (e.code === "Enter") {
-            console.log("okay");
+            submit(e, first, last, "next");
         }
     }
 
     function handleClick(e: React.MouseEvent<HTMLButtonElement>) {
-        if (!first || !last) {
-            return setError(true);
-        }
-        step(e, `${e.currentTarget.name}`);
-        updateName(e, first, last);
+        submit(e, first, last, `${e.currentTarget.name}`);
     }
 
     return (
