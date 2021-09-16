@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./App.css";
 import { ProgressBar } from "./ProgressBar";
 import { FullName } from "./fullName";
@@ -15,19 +15,9 @@ const App: React.FC = () => {
     const [salary, setSalary] = useState<string>("");
     const [progress, setProgress] = useState<number>(0);
 
-    useEffect(() => {
-        const progressBar = document.getElementById("prog-bar");
-        console.log(progressBar);
-    }, []);
-
-    useEffect(() => {
-        console.log("first:", firstName);
-        console.log("last:", lastName);
-        console.log("email:", email);
-        console.log("phone:", phone);
-        console.log("salary:", salary);
-        console.log("progress:", progress);
-    });
+    // useEffect(() => {
+    //     const progressBar = document.getElementById("prog-bar");
+    // }, []);
 
     const step = (
         e:
@@ -35,7 +25,6 @@ const App: React.FC = () => {
             | React.KeyboardEvent<HTMLDivElement>,
         direction: string
     ) => {
-        console.log("stepping from app.js");
         if (direction === "next") {
             setProgress((currProgress) => currProgress + 25);
         }
@@ -49,7 +38,6 @@ const App: React.FC = () => {
         firstName: string,
         lastName: string
     ) => {
-        console.log("updating state!");
         setFirstName(firstName);
         setLastName(lastName);
     };
@@ -59,7 +47,6 @@ const App: React.FC = () => {
         email: string,
         phone: string
     ) => {
-        console.log("updating email and phone");
         setEmail(email);
         setPhone(phone);
     };
@@ -68,7 +55,6 @@ const App: React.FC = () => {
         e: React.MouseEvent | React.KeyboardEvent,
         salary: string
     ) => {
-        console.log("updating salary!");
         setSalary(salary);
     };
 

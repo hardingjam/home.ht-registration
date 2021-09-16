@@ -43,7 +43,6 @@ export const EmailAndPhone: React.FC<NameProps> = ({
     }
 
     function handleChange(e: React.FormEvent<HTMLInputElement>) {
-        console.log("changing");
         if (e.currentTarget.name === "email") {
             setEmailAddress(e.currentTarget.value);
         }

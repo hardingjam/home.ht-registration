@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 import "./App.css";
 
@@ -28,10 +28,6 @@ export const SalaryRange: React.FC<SalaryProps> = ({
     const [salaryRange, setSalaryRange] = useState<string>(salary);
     const [error, setError] = useState<boolean>(false);
 
-    useEffect(() => {
-        console.log(salaryRange);
-    }, [salaryRange]);
-
     function submit(
         e:
             | React.KeyboardEvent<HTMLDivElement>
@@ -53,7 +49,6 @@ export const SalaryRange: React.FC<SalaryProps> = ({
 
     function handleKeyPress(e: React.KeyboardEvent<HTMLDivElement>) {
         if (e.code === "Enter") {
-            console.log("enter");
             submit(e, salaryRange, "next");
         }
     }
