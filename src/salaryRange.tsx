@@ -39,15 +39,21 @@ export const SalaryRange: React.FC<SalaryProps> = ({
         salaryRange: string,
         direction: string
     ) {
-        if (!salaryRange) {
-            return setError(true); // add the error message
+        if (direction === "next") {
+            if (!salaryRange) {
+                return setError(true); // add the error message
+            }
+            updateSalary(e, salaryRange);
+            step(e, direction);
+        } else if (direction === "back") {
+            updateSalary(e, salaryRange);
+            step(e, direction);
         }
-        updateSalary(e, salaryRange);
-        step(e, direction);
     }
 
     function handleKeyPress(e: React.KeyboardEvent<HTMLDivElement>) {
         if (e.code === "Enter") {
+            console.log("enter");
             submit(e, salaryRange, "next");
         }
     }

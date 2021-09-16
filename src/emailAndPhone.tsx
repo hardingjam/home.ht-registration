@@ -70,6 +70,7 @@ export const EmailAndPhone: React.FC<NameProps> = ({
             updateEmailAndPhone(e, emailAddress, phoneNumber);
             step(e, direction);
         } else if (direction === "back") {
+            updateEmailAndPhone(e, emailAddress, phoneNumber);
             step(e, direction);
         }
     }
