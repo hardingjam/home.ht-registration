@@ -5,6 +5,7 @@ import { FullName } from "./fullName";
 import { EmailAndPhone } from "./emailAndPhone";
 import { SalaryRange } from "./salaryRange";
 import { Summary } from "./summary";
+import { Success } from "./success";
 
 const App: React.FC = () => {
     const [firstName, setFirstName] = useState<string>("");
@@ -138,6 +139,11 @@ const App: React.FC = () => {
                                     step(e, direction)
                                 }
                             />
+                        </>
+                    )}
+                    {progress === 100 && (
+                        <>
+                            <Success firstName={firstName} />
                         </>
                     )}
                 </div>

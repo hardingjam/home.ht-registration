@@ -32,6 +32,12 @@ export const FullName: React.FC<NameProps> = ({
         }
     }
 
+    function handleKeyPress(e: React.KeyboardEvent<HTMLDivElement>) {
+        if (e.code === "Enter") {
+            console.log("okay");
+        }
+    }
+
     function handleClick(e: React.MouseEvent<HTMLButtonElement>) {
         if (!first || !last) {
             return setError(true);
@@ -41,7 +47,7 @@ export const FullName: React.FC<NameProps> = ({
     }
 
     return (
-        <div className="registration-step">
+        <div className="registration-step" onKeyPress={handleKeyPress}>
             <h2>Let's get started. Tell us your name...</h2>
 
             <input

@@ -16,6 +16,7 @@
 
 .App-header {
     height: 20vh;
+    text-align: center;
     width: 100vw;
     display: flex;
     flex-direction: column;
@@ -100,6 +101,7 @@ button {
     display: flex;
     align-items: flex-start;
     font-weight: 300;
+    margin-bottom: 1rem;
 }
 
 .button-large {
@@ -117,6 +119,7 @@ button {
 .summary-info {
     font-weight: 300;
     display: flex;
+    margin-bottom: 1rem;
 }
 
 .info-labels {
@@ -140,4 +143,21 @@ button {
 
 .bolder {
     font-weight: 300;
+}
+
+.info-labels > p,
+.info-values > p {
+    margin-bottom: 2px;
+}
+
+a {
+    text-decoration: none;
+    color: #337ab7;
+    font-weight: 300;
+}
+a:hover {
+    text-decoration: none;
+    color: #337ab7;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
 }
